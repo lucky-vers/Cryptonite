@@ -1,3 +1,6 @@
+> [!NOTE]
+> This is the writeup for the challenge by the name of `README`, not an actual README file.
+
 **Flag:** `KCTF{kud05w3lld0n3!}`
 
 We go the link and quickly figure out the input to the text box involves a GET request to the server.
