@@ -1,4 +1,5 @@
-> [!NOTE] Unfinished Challenge
+> [!NOTE]
+> This is an unfinished challenge
 
 A zipped attachment is given with a windows executable `flash_dump.exe` and an audio file `486_375MHz-1MSps-1MHz.wav`.
 
