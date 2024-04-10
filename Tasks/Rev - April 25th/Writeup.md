@@ -19,7 +19,7 @@ print(process.readall())
 
 **Solution:**
 
-```
+```nasm
 mov rdi, 0x1337
 ```
 
@@ -29,8 +29,24 @@ mov rdi, 0x1337
 
 **Solution:**
 
-```
+```nasm
 mov rax, 0x1337
 mov r12, 0xCAFED00D1337BEEF
 mov rsp, 0x31337
 ```
+
+# level3
+
+**Flag:** `pwn.college{Ebrs04nwSsD5aOfw7fm6wA88R5X.0VN5EDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+add rdi, 0x331337
+```
+
+# level4
+
+**Flag:**
+
+**Solution:**
