@@ -67,3 +67,15 @@ mov rax, rsi
 mov rax, rdi
 div rsi
 ```
+
+# level6
+
+**Flag:** `pwn.college{gKS3YRXZYnAE-ezYbH5zEf9Et0d.0FO5EDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov rax, rdi
+div rsi
+mov rax, rdx
+```
