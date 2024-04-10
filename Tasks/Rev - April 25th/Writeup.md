@@ -79,3 +79,35 @@ mov rax, rdi
 div rsi
 mov rax, rdx
 ```
+
+# level7
+
+**Flag:** `pwn.college{IGvBPSOwFVSo14erN-9EuJFLsuH.dFTM4MDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov ah, 0x42
+```
+
+# level8
+
+**Flag:** `pwn.college{Y2yJWO45UL0zg-x4Y9vC2gZLDgd.0VO5EDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov al, dil
+mov bx, si
+```
+
+# level9
+
+**Flag:** `pwn.college{EqGE232wvRjQL-gcq-OgZ4028X5.0FMwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+shr rdi, 32
+mov al, dil
+```
