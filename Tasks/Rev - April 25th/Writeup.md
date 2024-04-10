@@ -52,9 +52,9 @@ add rdi, 0x331337
 **Solution:**
 
 ```nasm
-    imul rsi, rdi
-    add rsi, rdx
-    mov rax, rsi
+imul rsi, rdi
+add rsi, rdx
+mov rax, rsi
 ```
 
 # level5
