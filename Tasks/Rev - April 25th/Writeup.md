@@ -56,3 +56,14 @@ add rdi, 0x331337
     add rsi, rdx
     mov rax, rsi
 ```
+
+# level5
+
+**Flag:** `pwn.college{w2uOOaP5D1gMvke9ec-a0RBqhu9.01N5EDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov rax, rdi
+div rsi
+```
