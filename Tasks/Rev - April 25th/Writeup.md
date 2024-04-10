@@ -47,6 +47,12 @@ add rdi, 0x331337
 
 # level4
 
-**Flag:**
+**Flag:** `pwn.college{EFv6xudMMr5h-otWfjBUPRbpg3E.0lN5EDLwgTN5QzW}`
 
 **Solution:**
+
+```nasm
+    imul rsi, rdi
+    add rsi, rdx
+    mov rax, rsi
+```
