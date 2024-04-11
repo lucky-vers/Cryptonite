@@ -111,3 +111,14 @@ mov bx, si
 shr rdi, 32
 mov al, dil
 ```
+
+# level10
+
+**Flag:** `pwn.college{cfD_PJ0YKkhPGubsPFi8T-FQRyb.0VMwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+and rdi, rsi
+and rax, rdi
+```
