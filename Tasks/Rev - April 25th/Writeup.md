@@ -195,10 +195,51 @@ mov rdx, [0x404000]
 
 # level17
 
-**Flag:** ``
+**Flag:** `pwn.college{YFwBLWRZVNwXx6YEveR7OFEcNZo.0VNwIDLwgTN5QzW}`
 
 **Solution:**
 
 ```nasm
+mov rax, 0xdeadbeef00001337
+mov rcx, 0xc0ffee0000
+mov [rdi], rax
+mov [rsi], rcx
+```
 
+# level18
+
+**Flag:** `pwn.college{IJggd9mUypkIKHzrIQ1SZkziTPk.0lNwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov rax, [rdi]
+mov rbx, [rdi + 8]
+add rax, rbx
+mov [rsi], rax
+```
+
+# level19
+
+**Flag:** `pwn.college{IkI7MnMpt4ktrKILRFRFEaCQ_3D.01NwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+pop rax
+sub rax, rdi
+push rax
+```
+
+# level20
+
+**Flag:** `pwn.college{40F97iOd52OHOwskB-Ad9hcC8Eh.0FOwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+push rdi
+push rsi
+pop rdi
+pop rsi
 ```
