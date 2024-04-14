@@ -122,3 +122,83 @@ mov al, dil
 and rdi, rsi
 and rax, rdi
 ```
+
+
+# level11
+
+**Flag:** `pwn.college{cp_HzeKjIkggwDDOR-2Yr72qWe9.0lMwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+and rdi, 1
+and rax, rdi
+xor rax, 1
+```
+
+# level12
+
+**Flag:** `pwn.college{0h-rvYfa3rLhhbfHZ6TsnTEe_aa.dJTM4MDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov rax, [0x404000]
+```
+
+# level13
+
+**Flag:** `pwn.college{IwX5iXXZHdO-91ODfJgJkEj7M7W.dNTM4MDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov [0x404000], rax
+```
+
+# level14
+
+**Flag:** `pwn.college{UNli4mAqlIf6vnkmNDXE5FAhKAz.01MwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov rax, [0x404000]
+mov rdi, [0x404000]
+add rdi, 0x1337
+mov [0x404000], rdi
+```
+
+# level15
+
+**Flag:** `pwn.college{QMcDyEpx8D_WZyOFdWjlbqVwFaj.dRTM4MDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov al, [0x404000]
+```
+
+# level16
+
+**Flag:** `pwn.college{MjGw7uMgylNjJLnFXPqG7mYhwWO.0FNwIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov al, [0x404000]
+mov bx, [0x404000]
+mov ecx, [0x404000]
+mov rdx, [0x404000]
+```
+
+
+# level17
+
+**Flag:** ``
+
+**Solution:**
+
+```nasm
+
+```
