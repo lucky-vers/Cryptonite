@@ -259,3 +259,57 @@ mov rbx, 4
 div rbx
 push rax
 ```
+
+# Level 22
+
+**Flag:** `pwn.college{kU1f5xkThpbUVs8HQLdMBj8CwDJ.dVTM4MDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+mov rax, 0x403000
+jmp rax
+```
+
+# Level 23
+
+**Flag:** `pwn.college{oekOH3Za6GBE56E49pj1lk7eezp.dZTM4MDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+    jmp rel_jump
+    .rept 0x51
+    nop
+    .endr
+rel_jump:
+    mov rax, 0x1
+```
+
+# Level 24
+
+**Flag:** `pwn.college{MVjOB77dtyqlNjM2VaFqFs-cLcz.0FMxIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+    jmp jmpret
+    .rept 0x51
+    nop
+    .endr
+jmpret:
+    pop rdi
+    mov rax, 0x403000
+    jmp rax
+```
+
+
+
+# Level 25
+
+**Flag:** ``
+
+**Solution:**
+
+```nasm
+```
