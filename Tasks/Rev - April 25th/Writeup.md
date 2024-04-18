@@ -305,9 +305,33 @@ jmpret:
 
 # Level 25
 
-**Flag:** ``
+**Flag:** `pwn.college{wbGBl4gCUv_RWeWLz-UHRUXgSMM.0VMxIDLwgTN5QzW}`
 
 **Solution:**
 
 ```nasm
+    cmp DWORD PTR [rdi], 0x7f454c46
+    je case_1
+
+    cmp DWORD PTR [rdi], 0x00005a4d
+    je case_2
+
+    mov  eax, DWORD PTR [rdi + 4]
+    imul eax, DWORD PTR [rdi + 8]
+    imul eax, DWORD PTR [rdi + 12]
+    jmp done
+
+case_1:
+    mov eax, DWORD PTR [rdi + 4]
+    add eax, DWORD PTR [rdi + 8]
+    add eax, DWORD PTR [rdi + 12]
+    jmp done
+
+case_2:
+    mov eax, DWORD PTR [rdi + 4]
+    sub eax, DWORD PTR [rdi + 8]
+    sub eax, DWORD PTR [rdi + 12]
+    jmp done
+
+done:
 ```
