@@ -303,8 +303,6 @@ jmpret:
     jmp rax
 ```
 
-
-
 # Level 25
 
 **Flag:** ``
