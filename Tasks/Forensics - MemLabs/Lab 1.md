@@ -1,4 +1,4 @@
-# MemLabs 1
+# MemLabs 1 - Beginner's Luck
 
 **Flag 1:** `flag{th1s_1s_th3_1st_st4g3!!}`
 
