@@ -335,3 +335,89 @@ case_2:
 
 done:
 ```
+
+# Level 26
+
+**Flag:** `pwn.college{Ehr1IQrh3eEHNW9rXd1VJywbvBc.0lMxIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+    cmp rdi, 3
+    jle less
+    jmp default
+less:
+    jmp [rsi + rdi * 8]
+
+default:
+    jmp [rsi + 0x20]
+```
+
+# Level 27
+
+**Flag:** `pwn.college{MEC6PMmONMu8I1wT8Fu18YWBESO.01MxIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+    mov rcx, rsi
+    jmp loop
+
+loop:
+    add rax, [rdi]
+    add rdi, 8
+    sub rcx, 1
+    cmp rcx, 0
+    jne loop
+    div rsi
+    jmp done
+
+done:
+    nop
+```
+
+# Level 28
+
+**Flag:** `pwn.college{ABLl3CRuH_9ivZ9D3masMiwsWRo.0FNxIDLwgTN5QzW}`
+
+**Solution:**
+
+```nasm
+    cmp rdi, 0
+    je zero
+    jmp loop
+
+loop:
+    mov bl, [rdi + rax]
+    cmp bl, 0
+    je default
+    inc rax
+    jmp loop
+
+zero:
+    mov rax, 0
+
+default:
+    nop
+```
+
+# Level 29
+
+**Flag:** ``
+
+**Solution:**
+
+```nasm
+
+```
+
+# Level 30
+
+**Flag:** ``
+
+**Solution:**
+
+```nasm
+
+```
+
