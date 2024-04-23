@@ -403,12 +403,40 @@ default:
 
 # Level 29
 
-**Flag:** ``
+**Flag:** `pwn.college{Q1NHsRgwwRR0aQz6pv5z-w_Q624.0VNxIDLwgTN5QzW}`
 
 **Solution:**
 
 ```nasm
+    mov rcx, rdi
+    cmp rcx, 0
+    je default
 
+loop:
+    mov rbx, [rcx]
+    cmp rbx, 0
+    je default
+
+    cmp bl, 0x5a
+    jg skip
+
+    mov rdi, rbx
+
+    mov rdx, 0x403000
+    call rdx
+
+    mov [rcx], al
+
+    inc rsi
+    jmp skip
+
+skip:
+    inc rcx
+    jmp loop
+
+default:
+    mov rax, rsi
+    ret
 ```
 
 # Level 30
