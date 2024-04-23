@@ -441,11 +441,49 @@ default:
 
 # Level 30
 
-**Flag:** ``
+**Flag:** `pwn.college{oa22yAm0HSk9uCPMrtSMeFP7ax_.0lNxIDLwgTN5QzW}`
 
 **Solution:**
 
 ```nasm
+    mov rbp, rsp
+    sub rsp, 0xff
+    mov r8, 0
 
+l1:
+    cmp r8, rsi
+    je reset
+    xor rax, rax
+    mov al, byte ptr[rdi + r8]
+    mov rbx, rbp
+    sub rbx, rax
+    inc byte ptr [rbx]
+    inc r8
+    jmp l1
+
+reset:
+    xor r8, r8
+
+l2:
+    cmp r8, 256
+    je default
+    mov rbx, rbp
+    sub rbx, r8
+    mov rax, 0
+    mov al, byte ptr [rbx]
+
+    cmp rax, r9
+    jle l3
+    mov r9, rax
+    mov rdx, r8
+
+l3:
+    inc r8
+    jmp l2
+
+default:
+    mov rax, rdx
+    leave
+    ret
 ```
 
