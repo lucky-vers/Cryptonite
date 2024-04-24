@@ -446,6 +446,7 @@ default:
 **Solution:**
 
 ```nasm
+    push 0
     mov rbp, rsp
     sub rsp, 0xff
     mov r8, 0
