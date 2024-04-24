@@ -466,7 +466,7 @@ reset:
     xor r8, r8
 
 l2:
-    cmp r8, 256
+    cmp r8, 0xff
     je default
     mov rbx, rbp
     sub rbx, r8
