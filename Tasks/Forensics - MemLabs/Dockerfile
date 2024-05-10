@@ -43,8 +43,6 @@ RUN git clone https://github.com/volatilityfoundation/volatility.git /root/vol
 RUN git clone https://github.com/superponible/volatility-plugins /root/vol-plugins
 RUN git clone https://github.com/volatilityfoundation/community /root/vol-community
 
-RUN echo 'alias vol="/root/vol/vol.py" >> /root/.bashrc'
-
 WORKDIR /root
 
 ENTRYPOINT ["/bin/bash"]
