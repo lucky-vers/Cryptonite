@@ -55,3 +55,64 @@ for p in permutations:
         print("License key was", p)
         print(result.stdout)
 ```
+
+# Level 3.0
+
+**Flag:** `pwn.college{A-ORDvouLqn-uWMjZNapVpdMbsL.0VN1IDLwgTN5QzW}`
+
+The key is reversed.
+
+```py
+k = [0x71, 0x78, 0x6b, 0x61, 0x68]
+
+for i in k[::-1]:
+    print(chr(i), end = '')
+```
+
+# Level 3.1
+
+**Flag:** `pwn.college{Aqc3dk8xecGDCy8vu1TbGbeckJ4.0lN1IDLwgTN5QzW}`
+
+The key is found in the `strings` output and simply needs to be reversed.
+
+# Level 4.0
+
+**Flag:** `pwn.college{c86UhegHHdkcTuS6twwKj9wcAIJ.01N1IDLwgTN5QzW}`
+
+The key is sorted.
+
+# Level 4.1
+
+**Flag:** `pwn.college{0SCLwLRKHfUDfyqJa9Jn5Zd4oqO.0FO1IDLwgTN5QzW}`
+
+The key is given in the `strings` output.
+
+# Level 5.0
+
+**Flag:** `pwn.college{gT93xSZFNbPrnIm9FZ-AousATKm.0VO1IDLwgTN5QzW}`
+
+All the key's characters have been XOR'd with `0x70`.
+
+```py
+for i in [0x07, 0x0a, 0x05, 0x1a, 0x01]:
+    print(chr(i ^ 0x70), end = '')
+```
+
+# Level 5.1
+
+**Flag:** `pwn.college{8LxesjmWeBewzdPPkSGkt3wtaGC.0FM2IDLwgTN5QzW}`
+
+XOR'd version of the key is given in the `strings` output. We brute force it till we find the key `qfftw`.
+
+```py
+from string import ascii_lowercase
+
+k = "0''56"
+
+for i in range(150):
+    s = ''
+    for j in k:
+        l = chr(ord(j) ^ i)
+        s += l
+    print(s)
+```
