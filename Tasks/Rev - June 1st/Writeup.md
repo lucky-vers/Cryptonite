@@ -116,3 +116,80 @@ for i in range(150):
         s += l
     print(s)
 ```
+
+# Level 6.0
+
+**Flag:** `pwn.college{o1ZWbwJQ3uby7Mnya7vQz7h258D.0VM2IDLwgTN5QzW}`
+
+The key is mangled through sorting and swapping. We convert the expected result to get the key.
+
+```py
+for i in [0x62, 0x64, 0x65, 0x68, 0x68, 0x68, 0x71, 0x6a, 0x6e, 0x6e, 0x6f, 0x69, 0x72, 0x76, 0x78, 0x79, 0x7a]:
+    print(chr(i), end = '')
+```
+
+# Level 6.1
+
+**Flag:** `pwn.college{QXD-1u7ltEQZbXRHN91IyXBV9aG.0lM2IDLwgTN5QzW}`
+
+The string is XOR'd according to certain conditions, and then compared to a string of 17 hex characters. It is also reversed twice, but those cancel out.
+
+```py
+var28 = [0xa1, 0x3f, 0x97, 0xa9, 0x2d, 0x85, 0xa8, 0x3f, 0x95, 0xab, 0x34, 0x97, 0xa3, 0x39, 0x93, 0xb9, 0x33]
+
+for i in range(len(var28)):
+    rax_12 = i % 3
+    if rax_12 == 2:
+        var28[i] ^= 0xfd
+    elif rax_12 == 0:
+        var28[i] ^= 0xce
+    elif rax_12 == 1:
+        var28[i] ^= 0x58
+
+for i in var28:
+    print(chr(i), end='')
+```
+
+# Level 7.0
+
+**Flag:** `pwn.college{AyNSTPqEUiPdKy6RIUrIsKxp0H4.01M2IDLwgTN5QzW}`
+
+The input is mangled with a series of XOR's and swaps.
+
+```py
+import subprocess
+
+hex_string = "cd4f050eddda9856180b97d9d056030e92d6cf5e0e009bdbd948051b9c"
+
+def swap_indices(hex_str, idx1, idx2):
+    byte_array = bytearray.fromhex(hex_str)
+    byte_array[idx1], byte_array[idx2] = byte_array[idx2], byte_array[idx1]
+    return byte_array.hex()
+
+def xor_with_value(hex_str, value):
+    byte_array = bytearray.fromhex(hex_str)
+    value_bytes = value.to_bytes((value.bit_length() + 7) // 8, 'big')
+    for i in range(len(byte_array)):
+        byte_array[i] ^= value_bytes[i % len(value_bytes)]
+    return byte_array.hex()
+
+hex_string = swap_indices(hex_string, 3, 20)
+hex_string = xor_with_value(hex_string, 0xdea6)
+hex_string = swap_indices(hex_string, 4, 6)
+hex_string = xor_with_value(hex_string, 0x1c58c7)
+hex_string = xor_with_value(hex_string, 0x78d0)
+byte_array = bytes.fromhex(hex_string)
+
+ascii_string = byte_array.decode('ascii', errors='replace')
+
+result = subprocess.run(
+    '/home/verma/Downloads/babyrev_level7.0',
+    input=ascii_string,
+    text=True,
+    capture_output=True
+)
+
+print(result.stdout)
+```
+
+# Level 7.1
