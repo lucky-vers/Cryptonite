@@ -193,3 +193,48 @@ print(result.stdout)
 ```
 
 # Level 7.1
+
+**Flag:** `pwn.college{gUPb7ItZ9bTSAy9kpA5V-mePQ6s.0FN2IDLwgTN5QzW}`
+
+The input characterrs are swapped and then XOR'd according to their indices
+
+```py
+import subprocess
+
+def main():
+    input = [0x40, 0xf3, 0x82, 0xd6, 0x9b, 0x57, 0xe2, 0x98, 0xdf, 0x6f, 0x5b, 0xf3, 0x9c, 0xd6, 0x7e, 0x68, 0xff, 0x94, 0xd0, 0x68, 0x52, 0xfd, 0x63, 0xc5, 0x52, 0x4a, 0xe6, 0x9b, 0xc3]
+
+    xor = [
+        0xb4,
+        0xec,
+        0x96,
+        0x33,
+        0x0a,
+    ]
+
+    input[15], input[24] = input[24], input[15]
+    input[4], input[22] = input[22], input[4]
+
+    for i in range(len(input) // 2):
+        input[i], input[len(input) - 1 - i] = input[len(input) - 1 - i], input[i]
+
+    for i in range(len(input)):
+        input[i] ^= xor[i % 5]
+
+    for i in range(len(input) // 2):
+        input[i], input[len(input) - 1 - i] = input[len(input) - 1 - i], input[i]
+
+    input_str = ''.join([chr(i) for i in input])
+
+    result = subprocess.run(['./babyrev_level7.1'], input=input_str, capture_output=True, text=True)
+
+    print(f"Input String: {input_str}")
+
+    if 'win' in result.stdout:
+        print(f"Input String: {input_str}")
+        print(f"Output: {result.stdout}")
+        exit(1)
+
+if __name__ == "__main__":
+    main()
+```
