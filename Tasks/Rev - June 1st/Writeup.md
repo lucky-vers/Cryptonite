@@ -238,3 +238,41 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+# Level 8.0
+
+**Flag:** `pwn.college{UoZkPKlwaT_uBfOIlWVkuS1nEq7.0VN2IDLwgTN5QzW}`
+
+The program mangles the input key using a series of XOR's, reverses and swaps.
+
+```py
+def xor_elements(data, key):
+    key_len = (key.bit_length() + 7) // 8
+    key_bytes = key.to_bytes(key_len, 'big')
+    return [b ^ key_bytes[i % key_len] for i, b in enumerate(data)]
+
+def reverse_list(data):
+    return data[::-1]
+
+def swap_elements(data, index1, index2):
+    data[index1], data[index2] = data[index2], data[index1]
+    return data
+
+data = [
+    0xe6, 0x04, 0x15, 0x24, 0xaa, 0x13, 0x14, 0x6b, 0xb8, 0x2a, 0xaf, 0xcf, 0x36, 0x8e, 0xdf, 0x8a, 0xab,
+    0x1f, 0xed, 0xa4, 0x27, 0xf6, 0x9b, 0x1e, 0x25, 0x71, 0x07, 0x9f, 0x69, 0x74, 0x2b, 0xb1, 0xd8, 0x31,
+    0x85, 0xdf, 0x8c, 0xbb, 0x04
+]
+
+data = swap_elements(data, 4, 29)
+data = reverse_list(data)
+data = xor_elements(data, 0xa5c152)
+data = reverse_list(data)
+data = xor_elements(data, 0xfee13a)
+data = swap_elements(data, 22, 27)
+data = xor_elements(data, 0x2252e3fa33e9dd)
+
+for i in data:
+    print(chr(i), end = '')
+```
+
