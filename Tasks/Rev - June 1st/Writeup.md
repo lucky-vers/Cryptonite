@@ -276,3 +276,27 @@ for i in data:
     print(chr(i), end = '')
 ```
 
+# Level 8.1
+
+**Flag:** `pwn.college{ELX_FKi5U3we0XommLMBMjuLopz.0lN2IDLwgTN5QzW}`
+
+The key is swapped, reversed, and sorted before being compared with.
+
+```py
+x = [ord(i) for i in list('zxxxwvvvvttamssssdqqqpnntjjjiffertaa')]
+
+def swap(x, a, b):
+    x[a], x[b] = x[b], x[a]
+    return x
+
+x = swap(x, 11, 33)
+x = x[::-1]
+x = swap(x, 11, 23)
+x = swap(x, 3, 18)
+x = x[::-1]
+x = x[::-1]
+
+for i in x:
+    print(chr(i), end = '')
+```
+
