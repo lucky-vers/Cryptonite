@@ -334,7 +334,7 @@ We invert a `jne` instruction to `jz` at the offsets `1e78` and `1be5`.
 
 **Flag:** `pwn.college{0n-X3PYA_WAM2nDG8Vq2fYzBLjy.0lM3IDLwgTN5QzW}`
 
-We invert a `jne` instruction to `jz` by changing:
+We invert a `jne` instruction to `jz` by changing the offsets:
 
 - `23ac` to `84`
 - `248e` to `74`
