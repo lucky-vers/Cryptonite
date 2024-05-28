@@ -1,5 +1,7 @@
 # Lock code
 
+![Puzzle](../../Images/puzzle_z3.png)
+
 We're given a 3 digit passcode with some constraints. Entering those into z3 we get the solution as **[3 9 4]**.
 
 ```py
