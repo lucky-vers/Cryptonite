@@ -1,5 +1,7 @@
 # sonda
 
+**Flag:** `flag{6n|L0V"6>f\$JE{uY}`
+
 We're given a binary file that takes in a seed and uses `srand` to make a valid passphrase. Using z3 we find out the seed to be **17**, the passphrase to be `6n|L0V"6>f\$JE{uY`, and thus the valid flag to be `flag{6n|L0V"6>f\$JE{uY}`
 
 ```py
@@ -63,9 +65,9 @@ else:
 
 # Lock code
 
-![Puzzle](../../Images/puzzle_z3.png)
+**Solution:** `[3 9 4]`
 
-We're given a 3 digit passcode with some constraints. Entering those into z3 we get the solution as **[3 9 4]**.
+We're given a 3 digit passcode with some constraints. Entering those into z3 we get the solution.
 
 ```py
 from z3 import *
@@ -116,4 +118,50 @@ else:
     solution = None
 
 print(solution)
+```
+
+# Custom Crypto
+
+**Flag** `pwned{100ks_g0Od_D03snT_w0rK}`
+
+We're given an encryption method in `enc.py` and its result in `enc.txt`. It uses a message in `flag.txt` and a key in `key.txt`. We solve this adding constraints in z3 to get the flag.
+
+```py
+from z3 import *
+
+# Given encrypted values
+encrypted_values = [28, 24, 1, 9, 9, 19, 93, 93, 94, 2, 26, 13, 6, 92, 61, 11, 15, 39, 91, 91, 20, 28, 54, 8, 17, 89, 23, 61]
+
+# Initialize Z3 solver
+solver = Solver()
+
+# Create BitVec variables for the encrypted and decrypted characters
+enc = [BitVec(f"enc_{i:02}", 8) for i in range(0, len(encrypted_values))]
+dec = [BitVec(f"dec_{i:02}", 8) for i in range(0, len(encrypted_values))]
+key = [BitVec(f"key_{i:02}", 8) for i in range(0, 4)]
+
+# Add known prefix constraint to guide the solver
+known_prefix = 'pwned'
+for i, v in enumerate(known_prefix):
+    solver.add(dec[i] == ord(v))
+
+# Add constraints for encryption/decryption relationship
+for i in range(len(encrypted_values)):
+    chunk = i // 4
+    offset = i % 4
+    solver.add(enc[i] == encrypted_values[i])
+    solver.add((dec[i] + chunk) ^ key[offset] == enc[i])
+    # Ensure the decrypted values are within the ASCII printable range
+    solver.add(dec[i] >= 32)
+    solver.add(dec[i] <= 126)
+
+# Check for a solution
+if solver.check() == sat:
+    model = solver.model()
+    solution = sorted([(d, model[d]) for d in model], key=lambda x: str(x[0]))
+    filtered_solution = [x for x in solution if str(x[0]).startswith("dec")]
+    flag = ''.join(map(lambda x: chr(int(str(x[1]))), filtered_solution))
+    print(f"Flag: {flag}")
+else:
+    print("No solution found")
 ```
