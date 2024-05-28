@@ -257,3 +257,34 @@ for i in range(32):
 
 print("Decrypted password:", ''.join([chr(f) for f in final]))
 ```
+
+# sweet
+
+**Solution:** `f1e391e593bd011`
+
+A file `sweet.c` is given, which performs bit-shifts on a password. I used the solve script to answer this:
+
+```py
+from z3 import *
+
+def find_solution():
+    for input_len in range(1, 32):
+        s = Solver()
+        input_vars = [BitVec(f"i_{i}", 8) for i in range(input_len)]
+        output = BitVecVal(0, 64)
+
+        for i in range(input_len):
+            output += ZeroExt(64 - 8, input_vars[i])
+            output <<= 1
+
+        s.add(output == 0x2d64a)
+
+        if s.check() == sat:
+            m = s.model()
+            solution = sorted([(d, m[d]) for d in m], key=lambda x: str(x[0]))
+            flag = "".join([f"{int(str(x[1]), 10):x}" for x in solution])
+            return flag
+
+print(find_solution())
+```
+
