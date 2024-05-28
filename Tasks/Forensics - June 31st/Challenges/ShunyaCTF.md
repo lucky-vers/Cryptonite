@@ -6,7 +6,7 @@ Given the phrase `the last thing you did wrong is what needs to be corrected fir
 
 Then, we open the file in PhotoPea and find a distorted image.
 
-![distorted](../../../../Images/forensics_0ctf_cor.jpg)
+![distorted](../../../Images/forensics_0ctf_cor.jpg)
 
 We try and shift around the rows of the image to get the uncorrupted file. With an offset of 7 per row, we get the full image and the flag.
 
@@ -44,4 +44,4 @@ output_file = 'undistorted_flag.png'
 undistort_image(input_file, output_file)
 ```
 
-![fixed](../../../../Images/forensics_0ctf_uncor.png)
+![fixed](../../../Images/forensics_0ctf_uncor.png)
