@@ -122,7 +122,7 @@ print(solution)
 
 # Custom Crypto
 
-**Flag** `pwned{100ks_g0Od_D03snT_w0rK}`
+**Flag:** `pwned{100ks_g0Od_D03snT_w0rK}`
 
 We're given an encryption method in `enc.py` and its result in `enc.txt`. It uses a message in `flag.txt` and a key in `key.txt`. We solve this adding constraints in z3 to get the flag.
 
