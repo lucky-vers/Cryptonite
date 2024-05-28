@@ -165,3 +165,58 @@ if solver.check() == sat:
 else:
     print("No solution found")
 ```
+
+# MathGenMe
+
+**Flag:** `pwned{0i_m4t3_y0u_g0t_a_l0ic3nse_f0r_th4t_m4th?}`
+
+We're given a license key and an executable that generates them. We open the binary to find it generates keys by transforming 4-byte blocks of the password. We reverse this process using z3 for the given license key to get the flag.
+
+```py
+from z3 import *
+
+# The given license key
+license_key = "04b2fc467e104c0c610e3bf0a009a9f3621905df1997ce0b6cd6a3ea68af4d4deaaf024906f7b259ba32035ac4dad586"
+license_bytes = [int(license_key[i:i+2], 16) for i in range(0, len(license_key), 2)]
+
+# Initialize Z3 solver
+solver = Solver()
+
+# Variables for the password characters
+password = [BitVec(f's{i}', 8) for i in range(48)]
+constraints = []
+
+# Add constraints that password characters are in ASCII range (printable characters)
+for p in password:
+    constraints.append(p >= 32)
+    constraints.append(p <= 126)
+
+# Apply the transformations for each block of 4 characters
+for i in range(0, 48, 4):
+    s0 = password[i]
+    s1 = password[i+1]
+    s2 = password[i+2]
+    s3 = password[i+3]
+
+    v0 = 33 * s3 + 89 * s2 + 103 * s1 + 66 * s0
+    v1 = 73 * s0 + -125 * s1 + -103 * s2 + 51 * s3
+    v2 = 113 * s1 + s3 + 54 * s0 + 8 * s2
+    v3 = 25 * s2 + 23 * s3 + 119 * s0 + 3 * s1
+
+    constraints.append(v0 & 0xFF == license_bytes[i])
+    constraints.append(v1 & 0xFF == license_bytes[i+1])
+    constraints.append(v2 & 0xFF == license_bytes[i+2])
+    constraints.append(v3 & 0xFF == license_bytes[i+3])
+
+# Add constraints to the solver
+solver.add(constraints)
+
+# Check if the solution exists and get the model
+if solver.check() == sat:
+    model = solver.model()
+    decoded_password = ''.join(chr(model[p].as_long()) for p in password)
+    print(f"Password: {decoded_password}")
+else:
+    print("No solution found")
+```
+
