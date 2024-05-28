@@ -45,3 +45,36 @@ undistort_image(input_file, output_file)
 ```
 
 ![fixed](../../../Images/forensics_0ctf_uncor.png)
+
+# Bluetooth For The Win
+
+**Flag:** `0ctf{BLE_FTW}`
+
+We're given a pcap file of Bluetooth transmissions and told there is a secret code hidden in it. I originally tried looking at the largest packets containing what looked to be image information, but to no avail.
+
+Then I found a hint for it that implied *"beeps and boops"* and "*messing around with his earbud*" had something to do with the solution. I thought it might be Morse code.
+
+Therefore, I extracted all the packets out that contained the play button being released or pushed, and the volume being changed.
+
+```py
+import pyshark
+
+# Load the pcap file
+cap = pyshark.FileCapture('bluetooth.pcap')
+
+for p in cap:
+    if 'avrcp' in str(p.frame_info):
+        k = str(p.btavrcp)
+        if 'Command in frame' in k:
+            if 'Push' in k:
+                print('p', k.split('\n')[-2])
+            elif 'Release' in k:
+                print('r', k.split('\n')[-2])
+            elif 'Changed' in k:
+                print('c', k.split('\n')[-4])
+```
+
+The output gave me a confusing series of volume changed and button presses. After much trial and error, I assumed increases in the volume to mean a Morse code up, decreases to be a Morse code down, and plays/pauses to mean a space. Using this, I got the following Morse code decryption:
+
+`-... .-.. . ..--.- ..-. - .--`, which translates to `BLE_FTW`. That is the flag.
+
