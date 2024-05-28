@@ -300,3 +300,42 @@ for i in x:
     print(chr(i), end = '')
 ```
 
+# Level 9.0
+
+**Flag:** `pwn.college{QlpqUEC2Afzb3vr2SeOqe9m8Ums.01N2IDLwgTN5QzW}`
+
+We invert a `jne` instruction to `jz` at the offset `225b`.
+
+# Level 9.1
+
+**Flag:** `pwn.college{Mh83Q98d4VxbWHYa9tudHFpkw3C.0FO2IDLwgTN5QzW}`
+
+We invert a `jne` instruction to `jz` at the offset `1d55`.
+
+# Level 10.0
+
+**Flag:** `pwn.college{IGyBL9X4EtUfJfgxqTT-JNgKjXY.0VO2IDLwgTN5QzW}`
+
+We invert a `jne` instruction to `jz` at the offset `2687`.
+
+# Level 10.1
+
+**Flag:** `pwn.college{Y0tUw-Mjo-LFgsKbsn4IrnSP7Kd.0FM3IDLwgTN5QzW}`
+
+We invert a `jne` instruction to `jz` at the offset `1a77`.
+
+# Level 11.0
+
+**Flag:** `pwn.college{oC5iPRY9HTVhi8eAvATIo2YUEHd.0VM3IDLwgTN5QzW}`
+
+We invert a `jne` instruction to `jz` at the offsets `1e78` and `1be5`.
+
+# Level 11.1
+
+**Flag:** `pwn.college{0n-X3PYA_WAM2nDG8Vq2fYzBLjy.0lM3IDLwgTN5QzW}`
+
+We invert a `jne` instruction to `jz` by changing:
+
+- `23ac` to `84`
+- `248e` to `74`
+
