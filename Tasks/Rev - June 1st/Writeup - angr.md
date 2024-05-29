@@ -43,3 +43,41 @@ if s.found:
     solution = s.found[0]
     print(solution.posix.dumps(0))
 ```
+
+# Level 02
+
+**Flag:** `HETOBRCU`
+
+We find a path using the correct and incorrect outputs.
+
+```py
+import angr
+
+# Load the binary
+project = angr.Project('./02_angr_find_condition', auto_load_libs=False)
+
+# Create an initial state at the entry point
+initial_state = project.factory.entry_state()
+
+# Use a simulation manager to manage exploration
+simulation = project.factory.simulation_manager(initial_state)
+
+# Define a function to find the 'Good job' address
+def is_good_job(state):
+    return b'Good Job.' in state.posix.dumps(1)
+
+# Define a function to avoid the 'Try again' address
+def is_try_again(state):
+    return b'Try again.' in state.posix.dumps(1)
+
+# Explore the binary to find a path to 'Good job' and avoid 'Try again'
+simulation.explore(find=is_good_job, avoid=is_try_again)
+
+# Check the results
+if simulation.found:
+    solution_state = simulation.found[0]
+    print("Found a path to 'Good job'")
+    print(solution_state.posix.dumps(0))  # Print the input that leads to 'Good job'
+else:
+    print("Could not find a path to 'Good job'")
+```
