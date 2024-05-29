@@ -81,3 +81,25 @@ if simulation.found:
 else:
     print("Could not find a path to 'Good job'")
 ```
+
+We use the same solve script on the remaining levels to get their flags. Not sure whether this was supposed to be the way to do it.
+
+# Level 03
+
+**Flag:**  `b9ffd04e ccf63fe8 8fd4d959`
+
+# Level 04
+
+**Flag:** `1704280884 2382341151`
+
+# Level 05
+
+**Flag:** `NAXTHGNR JVSFTPWE LMGAUHWC XMDCPALU`
+
+# Level 06
+
+**Flag:** `UBDKLMBV UNOERNYS`
+
+# Level 07
+
+**Flag** `AZOMMMZM`
