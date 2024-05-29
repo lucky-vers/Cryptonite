@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
 **Flag:** `HUJOZMYS`
 
-We need to go to the addres `0x080485e5` and avoid the address `0x080485A8`
+We need to go to the addres `0x080485e5` and avoid the address `0x080485A8`.
 
 ```py
 import angr
