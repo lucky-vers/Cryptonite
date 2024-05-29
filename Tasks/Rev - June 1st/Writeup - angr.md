@@ -86,7 +86,7 @@ We use the same solve script on the remaining levels to get their flags. Not sur
 
 # Level 03
 
-**Flag:**  `b9ffd04e ccf63fe8 8fd4d959`
+**Flag:** `b9ffd04e ccf63fe8 8fd4d959`
 
 # Level 04
 
