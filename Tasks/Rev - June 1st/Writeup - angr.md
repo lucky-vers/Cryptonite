@@ -102,4 +102,4 @@ We use the same solve script on the remaining levels to get their flags. Not sur
 
 # Level 07
 
-**Flag** `AZOMMMZM`
+**Flag:** `AZOMMMZM`
