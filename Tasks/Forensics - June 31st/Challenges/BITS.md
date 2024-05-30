@@ -164,3 +164,17 @@ a discount of 50% . Thank-you for your serious consideration
 of our offer .
 ```
 
+# I'm wired in
+
+**Flag:** `BITSCTF{I_7h1nk_th3y_4Re_k3yl0991ng_ME!}`
+
+We extract a pcap dump and an irrelevant text file that I thought would be useful using FTKImager. I looked around for how to parse USB pcap data and came across [this video](https://www.youtube.com/watch?v=EnOgRyio_9Q). After that it was a simple matter of following the steps shown, and I got the flag.
+
+```
+~/Downloads $ python3 ctf-usb-keyboard-parser/usbkeyboard.py keys
+I havebeen hake !!!
+HELMEE
+BITSCTF{I_7h1nk_th3y_4Re_k3yl0991ng_ME!}
+
+" MogamBro
+```
