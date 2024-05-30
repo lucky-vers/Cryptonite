@@ -117,3 +117,50 @@ Unfortunately, I tried running them both using `wine` and neither worked. So I n
 
 I first started searching WinRAR CVE's to find a relevant vulnerability. Searching for exploits related to zip files and batch scripts, I was lead to [this blog post](https://www.mcafee.com/blogs/other-blogs/mcafee-labs/exploring-winrar-vulnerability-cve-2023-38831/) by McAfee. It matched our threat model exactly, such as the file names of the pdf and zip being the same. Hence, we get the required CVE as `CVE-2023-38831`, and thus the flag.
 
+
+# MogamBro's Guilty Pleasure
+
+**Flag:** `BITSCTF{sp4m_2_ph1sh_U}`
+
+We find two `.eml` Email files in the **Documents/Outlook** folder when opening the `ad1` file with FTKImager. In the first file `50% Discount available on the Mimikyu plushie.eml`, we find data that looks to be encoded by Spam Mimic. And sure enough, decoding it, we get the flag.
+
+```
+Dear Friend , We know you are interested in receiving
+red-hot information . We will comply with all removal
+requests . This mail is being sent in compliance with
+Senate bill 1622 , Title 9 ; Section 305 . THIS IS
+NOT MULTI-LEVEL MARKETING ! Why work for somebody else
+when you can become rich as few as 24 weeks ! Have
+you ever noticed nearly every commercial on television
+has a .com on in it plus nearly every commercial on
+television has a .com on in it ! Well, now is your
+chance to capitalize on this ! WE will help YOU deliver
+goods right to the customer's doorstep and deliver
+goods right to the customer's doorstep ! You can begin
+at absolutely no cost to you . But don't believe us
+! Mrs Jones of New Mexico tried us and says "I've been
+poor and I've been rich - rich is better" ! We are
+licensed to operate in all states . We IMPLORE you
+- act now ! Sign up a friend and you get half off !
+Thanks . Dear Salaryman ; Your email address has been
+submitted to us indicating your interest in our letter
+. If you no longer wish to receive our publications
+simply reply with a Subject: of "REMOVE" and you will
+immediately be removed from our mailing list . This
+mail is being sent in compliance with Senate bill 1627
+, Title 6 , Section 303 . This is not multi-level marketing
+. Why work for somebody else when you can become rich
+as few as 70 WEEKS ! Have you ever noticed people love
+convenience and most everyone has a cellphone ! Well,
+now is your chance to capitalize on this . WE will
+help YOU process your orders within seconds plus turn
+your business into an E-BUSINESS . You are guaranteed
+to succeed because we take all the risk . But don't
+believe us ! Prof Ames of Louisiana tried us and says
+"I've been poor and I've been rich - rich is better"
+! We are licensed to operate in all states . Do not
+delay - order today ! Sign up a friend and you'll get
+a discount of 50% . Thank-you for your serious consideration
+of our offer .
+```
+
