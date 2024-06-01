@@ -22,6 +22,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libffi-dev \
     libfuzzy-dev \
     libssl-dev \
+    mariadb-server-10.3 \
     neovim \
     outguess \
     pngcheck \
