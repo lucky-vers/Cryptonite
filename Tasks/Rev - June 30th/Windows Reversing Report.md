@@ -157,3 +157,45 @@ Then, we learn about structures and classes in assembly, and how their contents 
 
 Finally, we learn about DLLs, how they operate, and how they are used in recovering function names in decompilers. We also learn about function name mangling, how you run a DLL for test purposes, and how to analyze files which cannot not be traditionally \`executed\` like DLLs.
 
+# Windows PE Headers
+
+**https://tryhackme.com/r/room/dissectingpeheaders**
+
+In this we learn the structure of a Windows executable and the headers attached to it.
+
+First there's the *IMAGE_DOS_HEADER*, containing the first 64 bytes of the PE. It begins with the bytes `MZ` (`0x5a4d` in hex) and ends with the address from where the *IMAGE_NT_HEADER* starts.
+
+Then, the *DOS_STUB* contains the message "!This program cannot be run in DOS mode"
+
+The *IMAGE_NT_HEADER* contains all the important information about the PE. Its split into three parts:
+
+- **Signature:** The bytes `50 45 00 00` or `PE`, indicating the beginning of the header.
+
+- **FILE_HEADER:** The source of all the important information, as follows
+    1. *Machine*
+    2. *NumberOfSections*
+    3. *TimeDateStamp*
+    4. *PointerToSymbolTable*
+    5. *NumberOfSymbols*
+    6. *SizeOfOptionalHeader*
+    7. *Characteristics*
+
+- **OPTIONAL_HEADER:** It contains more crucial metadata, such as
+    1. **Magic:** Whether its a 32-bit or 64-bit application.
+    2. **AddressOfEntryPoint:** This is the address from where Windows begins execution.
+    3. **ImageBase:** The likely loading address of the PE file in memory.
+    4. **BaseOfCodeBaseOfData:** Addresses of the code and data sections, respectively, relative to ImageBase.
+    5. **Subsystem:** The Subsystem required to run the image, such as Windows Native, GUI, CLI, etc.
+    6. **DataDirectory:** Contains import and export information of the PE file
+
+- **IMAGE_SECTION_HEADER:** This contains all the data, such as variables, classes and structs the application needs to run. Commonly found sections are
+    1. **.text:** Contains the actual code for the PE.
+    2. **.data:** Has the initialized data of the application.
+    3. **.rdata/.idata:** Contain the import information of the PE file.
+    4. **.ndata:** Contains uninitialized data.
+    5. **.reloc:** Contains relocation information of the PE file.
+    6. **.rsrc:** Has icons, images, or other graphical resources required for the application UI.
+
+- **IMAGE_IMPORT_DESCRIPTOR:** Also stores the import information of a program and what API calls its making.
+
+We then learn about executable packing and why a programmer might use them. A few indicators of them include empty section names, high entropy of sections, and lesser imports.
