@@ -145,3 +145,15 @@ WaitForSingleObject(hThread, 0xFFFFFFFF);
 return;
 ```
 
+# Windows Reversing Intro
+
+**https://tryhackme.com/r/room/windowsreversingintro**
+
+This was another basic room that taught the usage of the  IDA decompiler and some basic Windows Reverse Engineering knowledge.
+
+We're first told about function prologues and epilogues, and how a stack frame is created on top of older function stack frames. Then, we move to IDA, where we're taught about function inlining, i.e. the process of removing a function call and putting the contents of it in the calling function directly.
+
+Then, we learn about structures and classes in assembly, and how their contents are stored.
+
+Finally, we learn about DLLs, how they operate, and how they are used in recovering function names in decompilers. We also learn about function name mangling, how you run a DLL for test purposes, and how to analyze files which cannot not be traditionally \`executed\` like DLLs.
+
