@@ -179,6 +179,23 @@ BITSCTF{I_7h1nk_th3y_4Re_k3yl0991ng_ME!}
 " MogamBro
 ```
 
+# Bypassing Transport Layer
+
+**Flag:** `BITSCTF{5te4l1ng_pr1v47e_key5_ez:)}`
+
+For this, I remembered the keys file I had stupidly called "useless" earlier. We also have a pcap dump we've not accessed for any challenge, as this was the last DFIR I solved.
+
+Looking around a bit, I found the an option in wireshark that let me import these keys into the pcap dump — `Edit → Preferences → Protocols → TLS → Browse Key file`.
+
+Inserting the keys into wireshark, we decrypted the previously obscured data. Now, we exported all HTTP objects and got a ton of files.
+
+I first tried the naive approach of running strings on all of them, and it worked!
+
+```
+…/Files/mogambro/bypass/files $ strings * | grep -i bitsctf
+</div></li><li class="li1"><div class="de1">Anyways here&#039;s your flag - BITSCTF{5te4l1ng_pr1v47e_key5_ez:)}</div></li></ol>        </div>
+```
+
 # Lottery
 
 **Flag:** `BITSCTF{1_r3c3ived_7he_b0mbz}`
