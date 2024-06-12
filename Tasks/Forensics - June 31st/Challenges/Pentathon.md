@@ -33,7 +33,7 @@ The value of the registry entry stored by the malicious macro seems to be `fA3bD
 
 # schmerz-2
 
-**Flag:** `flag{python.exe "C:\Users\challenge\AppData\Local\Temp\msserver.py}"`
+**Flag:** `flag{python.exe "C:\Users\challenge\AppData\Local\Temp\msserver.py"}`
 
 The same macro also shows this:
 
