@@ -87,3 +87,43 @@ python.exe "C:\Users\challenge\AppData\Local\Temp\msserver.py}"
 ```
 
 As with the previous one, I have no clue if this is the correct flag since I couldn't find a writeup, but it should be.
+
+# schmerz-3
+
+**Flag** `flag{fA3bDtO6QL}`
+
+We find a file `msserver.py` on the filesystem in `C:\Users\challenge\AppData\Local\Temp\`. This was hinted at in the macro we found in the docm file.
+
+Looking at the code, we see its some kind of encryption scheme for a server that XOR's it with its index and then converts it to base64.
+
+We also have a pcap file `chall.pcap`. With Wireshark we can scan the packets and see base64 data being transferred. We extract the base64 data and reverse XOR it, leading to commands for slowly building a file `a.py` by echo'ing base64 strings into a file `file.txt`.
+
+Decoding the base64 strings in `a.py`, we find another encryption scheme, this time the one the attacker used to encrypt the files. I pasted the code into ChatGPT and it told me it looked like an RC4 encryption schema.
+
+The key in this case is the registry value set earlier (`fA3bDt`), along with 4 random characters. Since we know its a block cipher, we use 4 bytes of the ZIP header that the program encrypted to brute-force the cipher and find the final 4 characters of the key.
+
+```py
+from itertools import product
+from Crypto.Cipher import ARC4
+
+plaintext = b'PK\x03\x04'
+expected_cipher = b'\xe5\x74\xca\x32'
+known_key_part = 'fA3bDt'
+
+def rc4_encrypt(key, data):
+    cipher = ARC4.new(key.encode())
+    return cipher.encrypt(data)
+
+charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+possible_keys = (''.join(p) for p in product(charset, repeat=4))
+
+for part in possible_keys:
+    full_key = known_key_part + part
+    encrypted = rc4_encrypt(full_key, plaintext)
+    print(part)
+    if encrypted == expected_cipher:
+        print(f'Found key: {full_key}')
+        exit(0)
+```
+
+With this, we get the last 4 characters as `06QL`, and thus the full key.
