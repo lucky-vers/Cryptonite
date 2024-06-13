@@ -18,18 +18,20 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     forensics-all \
     git \
     hexedit \
+    less \
     libevent-dev \
     libffi-dev \
     libfuzzy-dev \
     libssl-dev \
+    man \
     mariadb-server-10.3 \
     neovim \
     outguess \
     pngcheck \
     pngtools \
+    python3-pip \
     python-dev \
     python-pip \
-    python3-pip \
     sonic-visualiser \
     stegosuite \
     vim \
