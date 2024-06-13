@@ -33,7 +33,10 @@ The value of the registry entry stored by the malicious macro seems to be `fA3bD
 
 # schmerz-2
 
-**Flag:** `flag{python.exe "C:\Users\challenge\AppData\Local\Temp\msserver.py"}`
+**Flag:** `flag{whoami}`
+
+> [!WARNING]
+> Look at the edit for the real flag.
 
 The same macro also shows this:
 
@@ -88,6 +91,8 @@ python.exe "C:\Users\challenge\AppData\Local\Temp\msserver.py}"
 
 As with the previous one, I have no clue if this is the correct flag since I couldn't find a writeup, but it should be.
 
+EDIT: So the command was `whoami`, since it was the first command after the remote connection the script made.
+
 # schmerz-3
 
 **Flag** `flag{fA3bDtO6QL}`
@@ -127,3 +132,35 @@ for part in possible_keys:
 ```
 
 With this, we get the last 4 characters as `06QL`, and thus the full key.
+
+# schmerz-4
+
+**Flag:** `flag{ajeet-mestry-UBhpOIHnazM-unsplash}`
+
+Decrypting the ZIP file with the key in the previous challenge, we find its password-protected.
+
+After much looking around and dead ends, I think the password might be in the contents of `notepad.exe`, so I dump it.
+
+```
+…/Forensics - June 31st/Challenges/Files/schmerz $ python3 volatility3/vol.py -p ./vol_plugins -f memdump.mem windows.memmap --pid 7536 --dump
+```
+
+Then we use `strings` to get a wordlist of all posssible passwords, making sure to include utf-16 strings.
+
+```
+…/Forensics - June 31st/Challenges/Files/schmerz $ strings -e l pid.7536.dmp > notepadstr
+```
+
+Then we simply use `fcrackzip` to find the password.
+
+```
+…/Forensics - June 31st/Challenges/Files/schmerz  master ! +25 -1 $ fcrackzip  -b -D -p notepadstr -u schmerz-4/download.zip
+
+
+PASSWORD FOUND!!!!: pw == 83KvvO60Zf69Yyq8
+```
+
+Using this, we extract a file `tv.jpg` from the ZIP. Putting it into aperisolve, we get the string `ajeet-mestry-UBhpOIHnazM-unsplash`.
+
+The organizer "forgot" the flag and said it was good enough, so yeah.
+
