@@ -18,3 +18,21 @@ We're given a setup similar to before, but this time we need to set the ZF of tw
 
 ![win200flag](../../Images/windbg200.jpg)
 
+# WinAntiDbg 0x300
+
+**Flag:** `picoCTF{}`
+
+Running Detect-it-Easy on the binary, we see that its UPX packed. We first unpack it.
+
+```
+~/Downloads $ upx -d WinAntiDbg0x300.exe
+                       Ultimate Packer for eXecutables
+                          Copyright (C) 1996 - 2024
+UPX 4.2.4       Markus Oberhumer, Laszlo Molnar & John Reiser    May 9th 2024
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+     75264 <-     26624   35.37%    win32/pe     WinAntiDbg0x300.exe
+
+Unpacked 1 file.
+```
