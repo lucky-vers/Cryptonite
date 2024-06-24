@@ -20,13 +20,13 @@ Looking at main, it seems to be calling a few functions to find the entropy
 ```c
 int __cdecl main(int argc, const char **argv, const char **envp)
 {
-    void *file_contents; // eax
-    int possibly_file_size; // edi
-    void *copy_of_contents; // ebx
-    void *possible_output_ptr; // esi
-    int v7; // eax
-    long double v8; // fst7
-    int v10[4]; // [esp+1Ch] [ebp-10h] BYREF
+    void *file_contents;
+    int possibly_file_size;
+    void *copy_of_contents;
+    void *possible_output_ptr;
+    int v7;
+    long double v8;
+    int v10[4];
 
     sub_402570();
     if ( argc != 2 )
@@ -48,11 +48,11 @@ The function `entropy_finder` decompiles to this
 ```c
 int __cdecl entropy_finder(unsigned __int8 *file_contents, int output, int filesize)
 {
-    unsigned __int8 *copied_contents; // edx
-    int result; // eax
-    unsigned __int8 *end_of_file_ptr; // esi
-    int copied_contents_value; // ecx
-    int out_ptr[259]; // [esp+0h] [ebp-40Ch] BYREF
+    unsigned __int8 *copied_contents;
+    int result;
+    unsigned __int8 *end_of_file_ptr;
+    int copied_contents_value;
+    int out_ptr[259];
 
     memset(out_ptr, 0xFFu, 0x400u);
     if ( filesize <= 0 )
@@ -105,11 +105,11 @@ Now, moving to the next function `entropy_calc`
 ```c
 long double __cdecl entropy_calc(int out_contents, int unique_bytes, int file_size)
 {
-  int v3; // ebx
-  long double result; // fst7
-  long double v5; // fst7
-  long double v6; // fst7
-  double result_copy; // [esp+18h] [ebp-24h]
+  int v3;
+  long double result;
+  long double v5;
+  long double v6;
+  double result_copy;
 
   if ( unique_bytes <= 0 )
     return 0.0;
@@ -135,9 +135,9 @@ Another function `sub_402570` is also called which modifies the number passed to
 ```c
 long double __cdecl sub_40296C(double a1)
 {
-  char v3; // c2
-  char v4; // c0
-  long double v5; // fst5
+  char v3;
+  char v4;
+  long double v5;
 
   _FST6 = a1;
   __asm { fxam }
@@ -153,3 +153,159 @@ long double __cdecl sub_40296C(double a1)
 
 In general, this takes a file and calculates the amount of unique bytes in it, and prints it in floating point form.
 
+# HackTheBox
+
+## Encryption Bot
+
+**Flag:** `HTB{3nCrypT10N_W1tH_B1Ts!!}`
+
+We're given a `flag.enc` and a binary.
+
+Opening the binary, we find it needs an input of exactly 27 characters.
+
+```c
+result = strlen(a1);
+if ( (_DWORD)result != 27 )
+{
+    puts("I'm encrypt only specific length of character.");
+    puts("(-_-) Find it (-_-)");
+    exit(1);
+}
+```
+
+After this check, it calls another function which seems to create a large array, store the character in the input in it at an index, and perform two functions on every character.
+
+```c
+__int64 __fastcall sub_131D(const char *a1)
+{
+    size_t v1;
+    char v3[2124];
+    int i;
+
+    for ( i = 0; ; ++i )
+    {
+        v1 = i;
+        if ( v1 >= strlen(a1) )
+            break;
+        *&v3[4 * i + 2000] = a1[i];
+        sub_11D9(*&v3[4 * i + 2000], v3);
+    }
+    sub_129F();
+    return 0LL;
+}
+```
+
+The first function streams the data into a file `data.dat` after modifying it.
+
+```c
+__int64 __fastcall sub_11D9(int a1)
+{
+    int v3[20];
+    FILE *stream;
+    int j;
+    int i;
+
+    stream = fopen("data.dat", "a");
+    for ( i = 0; i <= 7; ++i )
+    {
+        v3[i] = a1 % 2;
+        a1 /= 2;
+    }
+    for ( j = 7; j >= 0; --j )
+        fprintf(stream, "%d", v3[j]);
+    fclose(stream);
+    return 0LL;
+}
+```
+
+The other one seems to modify `data.dat` and further change based on its index.
+
+```c
+int sub_14BA()
+{
+    int v1[400];
+    int v2;
+    char v3;
+    FILE *stream;
+    unsigned int j;
+    unsigned int v6;
+    int v7;
+    int i;
+
+    stream = fopen("data.dat", "r+");
+    sub_1291();
+    for ( i = 1; i <= 216; ++i )
+    {
+        v3 = fgetc(stream);
+        if ( v3 == 48 )
+        {
+            v1[i - 1] = 0;
+        }
+        else if ( v3 == 49 )
+        {
+            v1[i - 1] = 1;
+        }
+        if ( i && !(i % 6) )
+        {
+            v7 = i - 1;
+            v6 = 0;
+            for ( j = 0; j <= 5; ++j )
+            {
+                v2 = sub_13AB(j);
+                v6 += v2 * v1[v7--];
+            }
+            sub_13E9(v6);
+        }
+    }
+    return fclose(stream);
+}
+```
+
+This changes the character if its index is a multiple of 6.
+
+```c
+__int64 __fastcall sub_13AB(int a1)
+{
+    unsigned int v3;
+
+    v3 = 1;
+    while ( a1 )
+    {
+        v3 *= 2;
+        --a1;
+    }
+    sub_129F();
+    return v3;
+}
+```
+
+This further prints the character at the index given to it in the function.
+
+```c
+__int64 __fastcall sub_13E9(int a1)
+{
+    char v2[400];
+
+    strcpy(v2, "RSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQabcdefghijklmnopqrstuvwxyz");
+    memset(&v2[63], 0, 337);
+    putchar(v2[a1]);
+    return 0LL;
+}
+```
+
+So this executable seems to encrypt data by taking a 27 character string and creating a 36 character ciphertext by using a coded list and taking an index from it, then padding the binary to 6 bits.
+
+I looked around for writeups and saw this solve script, which I modified and used to get the flag.
+
+
+```py
+data = "RSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQabcdefghijklmnopqrstuvwxyz"
+flag_encrypt = "9W8TLp4k7t0vJW7n3VvMCpWq9WzT3C8pZ9Wz"
+index = [data.index(char) for char in flag_encrypt if char in data]
+
+binary = ''.join(format(num, '06b') for num in index)
+binary_chunks = [binary[i:i+8] for i in range(0, len(binary), 8)]
+
+flag = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
+print(flag)
+```
