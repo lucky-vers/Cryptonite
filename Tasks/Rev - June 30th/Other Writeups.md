@@ -310,7 +310,7 @@ flag = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
 print(flag)
 ```
 
-# Debugme
+## Debugme
 
 **Flag:** `HTB{Tr0lling_Ant1_D3buGGeR_trickz_R_fun!`
 
@@ -321,4 +321,43 @@ Opening it in x96dbg, we see it has three checks given to prevent us from debugg
 We bypass this by changing the `rip` to other locations on all three calls, bypassing the debugger checks.
 
 Then, we see the flag being XOR'd character by character with the value 0x4b after being loaded into `eax`. Seeing its hex dump, we get the flag.
+
+
+# crackmes.one
+
+## Bobby
+
+**Password:** `HWPQTV@PJ@@D"PUHVBPHPQ@@S\@PPDH[HHWP@PQQISPGH]HDRHPWPPP@`
+
+I referred to [this writeup](https://crackmes.one/static/solution/65f62429cddae72ae250b784.zip) by cnathansmith to solve it.
+
+I created an angr script similar to it to get the password.
+
+```py
+import angr, claripy
+
+p = angr.Project('./patched.exe')
+
+s = p.factory.full_init_state(addr=0x1400013B1)
+
+chars = [claripy.BVS('c_%d' % i, 8) for i in range(56)]
+pw = claripy.Concat(*chars)
+s.memory.store(s.regs.rbp - 0x50, pw)
+
+for c in pw.chop(8):
+    s.add_constraints(c >= 32)
+    s.add_constraints(c <= 126)
+
+simgr = p.factory.simgr(s)
+
+simgr.explore(find=0x140001ac3, avoid=0x140001ac4)
+
+if len(simgr.stashes['found']) != 0:
+	print('Password: ', simgr.stashes['found'][0].solver.eval(pw, cast_to=bytes).decode())
+else:
+	print('Password not found')
+```
+
+- A buffer of size `0x38` was allocated for the password, so we set the password length to 56.
+- I found correct passwords even without setting up the stack base pointer, so its not in the script.
 
