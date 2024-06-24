@@ -309,3 +309,16 @@ binary_chunks = [binary[i:i+8] for i in range(0, len(binary), 8)]
 flag = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
 print(flag)
 ```
+
+# Debugme
+
+**Flag:** `HTB{Tr0lling_Ant1_D3buGGeR_trickz_R_fun!`
+
+We're given a binary `debugme.exe` to debug.
+
+Opening it in x96dbg, we see it has three checks given to prevent us from debugging it. One at `0x00401674`, one at `0x00401694` and one at `0x004016A4`.
+
+We bypass this by changing the `rip` to other locations on all three calls, bypassing the debugger checks.
+
+Then, we see the flag being XOR'd character by character with the value 0x4b after being loaded into `eax`. Seeing its hex dump, we get the flag.
+
