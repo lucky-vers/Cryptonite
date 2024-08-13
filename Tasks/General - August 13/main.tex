@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\usepackage[margin=0.60in]{geometry}
+
+\setlength{\parindent}{0pt}
+
+\title{Reverse Engineering Report}
+\author{Lakshit Verma}
+
+\begin{document}
+\maketitle
+
+\section*{LIT CTF — revsite2}
+
+\textit{watch ads for a free flag, with amazing data integrity (patent not pending) URL: http://litctf.org:31785/} \\
+
+We were given a website which incremented a variable by clicking a button. When the variable reached 10 $\wedge$ 18 we would get the flag. Inspecting the script running the site we found it ran WASM, which was the code we had to reverse to get the flag. \\
+
+Things I learned in this challenge:
+
+\begin{enumerate}
+    \item{\textbf{WASM decompiling:} Using tools such as \texttt{wat2wasm} and \texttt{wasm2js} to decompile and convert WASM to more readable languages.}
+    \item{\textbf{WASM reversing:} Understanding WASM syntax and logic.}
+    \item{\textbf{Using the Ghidra WASM plugin:} Found this out after the CTF ended.}
+\end{enumerate}
+
+After looking at other writeups and on the Discord it turned out it performing the summation
+
+\begin{center}
+    $y = \displaystyle\sum_{x=0}^{10^{18}-1} (8x^3 + 3x^2 + 3x + 8)$
+\end{center}
+
+Putting the valu
+
+\end{document}
