@@ -65,7 +65,7 @@ Volatility Foundation Volatility Framework 2.6
 
 We find a `password.png` file. Dumping it, we make out the password to be `P4SSw0rd_123`.
 
-![keepassword](../../Images/keepass_password.png)
+![keepassword](../../../Images/keepass_password.png)
 
 Opening the database, we get the flag in the `password` of the username `flag`.
 
@@ -102,4 +102,4 @@ Enter password (will not be echoed):
 
 The SHA1 hash of the stage 3 flag of level 1 (`flag{w3ll_3rd_stage_was_easy}`) is `6045dd90029719a039fd2d2ebcca718439dd100a`. Now opening the image `Important.png`, we get the final flag.
 
-![Important](../../Images/Important.png)
+![Important](../../../Images/Important.png)

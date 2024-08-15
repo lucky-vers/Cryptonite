@@ -21,7 +21,7 @@ MogamBro        1000    aad3b435b51404eeaad3b435b51404ee        8a320467c7c22e32
 
 We have the nthash and the lmhash. Dumping them both into a hash decryption website like CrackStation, we get the password as `adolfhitlerrulesallthepeople`.
 
-![password](../../../Images/1717068448663540153.png)
+![password](../../../../Images/1717068448663540153.png)
 
 # 0.69 Day
 
@@ -272,4 +272,4 @@ if __name__ == "__main__":
     print("File decrypted successfully!")
 ```
 
-![secret.png](../../../Images/secret.png)
+![secret.png](../../../../Images/secret.png)

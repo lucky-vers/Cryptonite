@@ -72,11 +72,11 @@ volatility -f dumps/MemoryDump_Lab1.raw --profile Win7SP1x64 memdump -p 2424 -D 
 
 Since it's Paint, we can assume the file is an image somewhere. To extract raw image data from memory dumps, we rename the dump from `2424.dmp` to `2424.data`, and open it in GIMP. We find an image like this
 
-![Flip](../../Images/1713578438712239210.png)
+![Flip](../../../Images/1713578438712239210.png)
 
 Flipping and rotating it, we get the flag.
 
-![Flag](../../Images/1713578509405507422.png)
+![Flag](../../../Images/1713578509405507422.png)
 
 Now, on to the final flag. We know WinRAR was running so we search for RAR files in the filesystem.
 
@@ -139,4 +139,4 @@ Extracting  flag3.png                                                 OK
 All OK
 ```
 
-![flag3](../../Images/flag3.png)
+![flag3](../../../Images/flag3.png)

@@ -8,7 +8,7 @@ I fire up x64dbg and find the function near the offset `0x004015fc`. I see a `te
 
 Then, I tried the `je` instruction underneath it and set its ZF to 1. This worked, and after a few step throughs of the program we get the flag.
 
-![win100flag](../../Images/windbg100.jpg)
+![win100flag](../../../Images/windbg100.jpg)
 
 # WinAntiDbg 0x200
 
@@ -16,7 +16,7 @@ Then, I tried the `je` instruction underneath it and set its ZF to 1. This worke
 
 We're given a setup similar to before, but this time we need to set the ZF of two function returns to 1. Doing this in IDA, we get the flag.
 
-![win200flag](../../Images/windbg200.jpg)
+![win200flag](../../../Images/windbg200.jpg)
 
 # WinAntiDbg 0x300
 
@@ -45,5 +45,5 @@ Digging into the content of the first message via IDA's Strings feature, we find
 
 Then, after applying these changes to the original program, we run it again and get the flag.
 
-![win300flag](../../Images/windbg300.jpg)
+![win300flag](../../../Images/windbg300.jpg)
 
