@@ -45,3 +45,28 @@ Decompiling the hex bytecode, we find out what the `file_loader` function does â
 
 The bytecode also contains several integrity checks to prevent us accessing too much info.
 
+The first check is to make sure we can't modify `moon.lua`, as it checks for the number of lines and the line length in it.
+
+Subsequent checks include a CRC32 checksum along with others. Finally, the `flag_checker` function is loaded after all checks pass.
+
+The flag checking function looks somewhat like this:
+
+```lua
+local secret_value = 2238572670
+local constraints = {}
+constraints[#constraints + 1] = function(flag) return (flag[1] + flag[2] + flag[3]) * secret_value == 123456789 end
+constraints[#constraints + 1] = function(flag) return (flag[40] + flag[6] * flag[5]) * secret_value == 32152619259210 end
+constraints[#constraints + 1] = function(flag) return (flag[6] * flag[8] + flag[22]) * secret_value == 13357563121890 end
+constraints[#constraints + 1] = function(flag) return (flag[44] * flag[47] + flag[48]) * secret_value == 12997152922020 end
+constraints[#constraints + 1] = function(flag) return (flag[48] * flag[11] + flag[35]) * secret_value == 5477787323490 end
+constraints[#constraints + 1] = function(flag) return (flag[35] + flag[12] + flag[24]) * secret_value == 707388963720 end
+constraints[#constraints + 1] = function(flag) return (flag[10] * flag[36] * flag[42]) * secret_value == 1480862831231070 end
+constraints[#constraints + 1] = function(flag) return (flag[34] - flag[9] + flag[43]) * secret_value == 228334412340 end
+constraints[#constraints + 1] = function(flag) return (flag[11] + flag[17] - flag[39]) * secret_value == 134314360200 end
+.
+.
+.
+```
+
+Putting all these constraints into Z3, we can get the flag as `idek{th3_m0on_h4t3s_b31ng_t4mp3r3d_w1th_c3aec291}`
+
