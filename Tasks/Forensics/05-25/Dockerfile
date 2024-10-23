@@ -42,9 +42,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 RUN pip install pycrypto distorm3
 
-RUN git clone https://github.com/volatilityfoundation/volatility.git /root/vol
-RUN git clone https://github.com/superponible/volatility-plugins /root/vol-plugins
-RUN git clone https://github.com/volatilityfoundation/community /root/vol-community
+RUN git clone --depth 1 https://github.com/volatilityfoundation/volatility.git /root/vol
+RUN git clone --depth 1 https://github.com/superponible/volatility-plugins /root/vol-plugins
+RUN git clone --depth 1 https://github.com/volatilityfoundation/community /root/vol-community
 
 WORKDIR /root
 
