@@ -123,7 +123,7 @@ for part in possible_keys:
         exit(0)
 ```
 
-With this, we get the last 4 characters as `06QL`, and thus the full key.
+With this, we get the last 4 characters as `O6QL`, and thus the full key.
 
 # schmerz-4
 
